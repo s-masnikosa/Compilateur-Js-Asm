@@ -14,7 +14,7 @@
 %start command			// main non-terminal
 
 %left '+' '-'
-%left '*'
+%left '*' '/'
 %nonassoc UMOINS
 
 %%	// denotes the begining of the grammar with bison-specific syntax
@@ -27,6 +27,7 @@ expression:										// an expression is
 	expression '+' expression		// either a sum of an expression and an expression
 |	expression '-' expression		// or an expression minus an expression
 | expression '*' expression		// or an expression times an expression
+| expression '/' expression		// or an expression divided by an expression
 | '(' expression ')'					// or an expression surounded by parentheses
 | '-' expression %prec UMOINS	// or the negation of an expression
 | FLOAT												// or a NUMBER
