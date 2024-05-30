@@ -11,13 +11,17 @@
 %}
 
 %token NUMBER				// kinds of non-trivial tokens expected from the lexer
-%start expression		// main non-terminal
+%start command			// main non-terminal
 
 %left '+' '-'
 %left '*'
 %nonassoc UMOINS
 
 %%	// denotes the begining of the grammar with bison-specific syntax
+
+command:					// a command is
+	expression ';'	// an expression followed by a semicolon
+;
 
 expression:										// an expression is
 	expression '+' expression		// either a sum of an expression and an expression
