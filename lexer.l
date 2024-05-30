@@ -10,13 +10,13 @@
 
 %%
 
-0|[1-9][0-9]* 	{ printf("lex: création token NUMBER %s\n", yytext);
-								  return NUMBER; }
-[ \t\r]					{ ; }	// separator
-\n							{ printf("lex: fin de lecture\n");
-								  return 0; }
-.								{ printf("lex: création token %s\n", yytext);
-									return yytext[0]; }
+(0|[1-9][0-9]*)(\.[0-9]*)?	{ printf("lex: création token FLOAT %s\n", yytext); 
+															return FLOAT; }
+[ \t\r]											{ ; }	// separator
+\n													{ printf("lex: fin de lecture\n");
+															return 0; }
+.														{ printf("lex: création token %s\n", yytext);
+															return yytext[0]; }
 
 %%
 int yywrap(void){ return 1; } 	// function called at the end of the file
