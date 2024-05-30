@@ -10,7 +10,7 @@
  int yyerror(const char*);	// on generated functions 
 %}
 
-%token NUMBER				// kinds of non-trivial tokens expected from the lexer
+%token FLOAT				// kinds of non-trivial tokens expected from the lexer
 %start command			// main non-terminal
 
 %left '+' '-'
@@ -29,7 +29,7 @@ expression:										// an expression is
 | expression '*' expression		// or an expression times an expression
 | '(' expression ')'					// or an expression surounded by parentheses
 | '-' expression %prec UMOINS	// or the negation of an expression
-| NUMBER											// or a NUMBER
+| FLOAT												// or a NUMBER
 ;
 
 %%	// denotes the end of the grammar
