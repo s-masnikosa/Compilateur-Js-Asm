@@ -10,10 +10,12 @@
 
 %%
 
-(0|[1-9][0-9]*)(\.[0-9]*)?	{ printf("lex: création token FLOAT %s\n", yytext); 
+(0|[1-9][0-9]*)(\.[0-9]*)?	{ printf("lex: création token NUMBER %s\n", yytext); 
 															return NUMBER; }
-[ \t\r]											{ ; }	// separator
-\n													{ printf("lex: fin de lecture\n");
+True|False									{ printf("lex: création token BOOLEAN %s\n", yytext);
+															return BOOLEAN; }
+[ \t\r\n]										{ ; }	// separator
+<<EOF>>											{ printf("lex: fin de lecture\n");
 															return 0; }
 .														{ printf("lex: création token %s\n", yytext);
 															return yytext[0]; }

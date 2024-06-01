@@ -11,8 +11,10 @@
 %}
 
 %token NUMBER				// kinds of non-trivial tokens expected from the lexer
+%token BOOLEAN
 %start command			// main non-terminal
 
+%left "==" "<="
 %left '+' '-'
 %left '*' '/' '%'
 %nonassoc UMOINS
@@ -32,6 +34,9 @@ expression:										// an expression is
 | '(' expression ')'					// or an expression surounded by parentheses
 | '-' expression %prec UMOINS	// or the negation of an expression
 | NUMBER											// or a NUMBER
+| expression "<=" expression
+| expression "==" expression
+| BOOLEAN											// or a BOOLEAN
 ;
 
 %%	// denotes the end of the grammar
