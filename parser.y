@@ -15,12 +15,14 @@
 %parse-param {AST_comm* rez}
 %union {AST_expr expr; double number;}
 %token <number> NUMBER				// kinds of non-trivial tokens expected from the lexer
+%token <number> BOOLEAN
 %type <expr> expression 
 %start command			// main non-terminal
 
+%left '<' '='
 %left '+' '-'
 %left '*' '/' '%'
-%nonassoc UMOINS
+%nonassoc UMOINS NOT
 
 %%	// denotes the begining of the grammar with bison-specific syntax
 
@@ -46,6 +48,16 @@ expression:										// an expression is
 		{ $$=new_unary_expr('M', $2); }
 | NUMBER											// or a NUMBER
 		{ $$=new_number_expr($1); }
+| expression '<' '=' expression
+		{ $$=new_binary_expr('L', $1, $4); }
+| expression '=' '=' expression
+		{ $$=new_binary_expr('E', $1, $4); }
+| expression '<' expression
+		{ $$=new_binary_expr('l', $1, $3); }
+| '!' expression %prec NOT
+		{ $$=new_unary_expr('!', $2); }
+| BOOLEAN											// or a BOOLEAN
+		{ $$=new_boolean_expr($1); }
 ;
 
 %%	// denotes the end of the grammar

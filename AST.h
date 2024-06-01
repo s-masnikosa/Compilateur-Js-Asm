@@ -25,6 +25,9 @@ AST_expr new_unary_expr(char rule, AST_expr son);
 AST_expr new_number_expr(double number);
 
 /* create an AST leaf from a value */
+AST_expr new_boolean_expr(double number);
+
+/* create an AST leaf from a value */
 AST_comm new_command(AST_expr expression);
 
 /* delete an AST */
