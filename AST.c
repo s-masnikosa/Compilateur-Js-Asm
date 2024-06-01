@@ -33,6 +33,20 @@ AST_expr new_number_expr(double number)
 }
 
 /* create an AST leaf from a value */
+AST_expr new_boolean_expr(double number)
+{
+  AST_expr t=(struct _expr_tree*) malloc(sizeof(struct _expr_tree));
+  if (t!=NULL){	/* malloc ok */
+    t->rule='B';
+    t->number=number;
+    t->left=NULL;
+    t->right=NULL;
+  } else printf("ERR : MALLOC ");
+  return t;
+}
+
+
+/* create an AST leaf from a value */
 AST_comm new_command(AST_expr expression){
   AST_comm t =  malloc(sizeof(struct _command_tree));
   if (t!=NULL){	/* malloc ok */
@@ -59,19 +73,30 @@ void free_comm(AST_comm t)
   }
 }
 
-/* infix print an AST*/
 void print_expr(AST_expr t){
   if (t!=NULL) {
     printf("[ ");
-    print_expr(t->left);
-    if (t->left==NULL && t->rule == 'N') 
-			printf(":%g: ",t->number); 
-		else 
-			printf(":%c: ",t->rule);
-    print_expr(t->right);
+    switch(t->rule){
+		  case 'N':
+		  	printf(":%g: ",t->number);
+		  	break;
+		  case 'B':
+		  	printf(":%s: ", (t->number == 0)?"True":"False");
+				break;
+			default:
+				if(t->left != NULL)
+					print_expr(t->left);
+					printf(":%c: ", t->rule);
+				print_expr(t->right);
+				break;
+    }
     printf("] ");
   }
 }
+
+
+/* infix print an AST*/
+
 void print_comm(AST_comm t){
   if (t!=NULL) {
     printf(" ");
@@ -96,6 +121,9 @@ void print_code_rec(AST_expr t){
 			case 'N':
 				printf("CstNb %g\n", t->number);
 				break;
+			case 'B':
+				printf("CsteBo %s\n", (t->number == 0)?"False":"True");
+				break;
 			case '+':
 				printf("AddiNb\n");
 				break;
@@ -113,6 +141,18 @@ void print_code_rec(AST_expr t){
 				break;
 			case '%':
 				printf("ModuNb\n");
+				break;
+			case 'L': // <=
+				printf("LoEqNb\n");
+				break;
+			case 'E': // ==
+				printf("Equals\n");
+				break;
+			case '<':
+				printf("LoStNb\n");
+				break;
+			case '!':
+				printf("Not\n");
 				break;
 			default:
 				perror("Erreur\n");

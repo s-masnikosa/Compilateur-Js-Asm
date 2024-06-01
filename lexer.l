@@ -9,13 +9,12 @@
 %}
 
 %%
-(0|[1-9][0-9]*)(\.[0-9]*)?	{ printf("lex: création token NUMBER %s\n", yytext); 
-															yylval.number=atof(yytext);
-															return NUMBER; }
-[ \t\r]											{ ; }	// separator
-\n													{ printf("lex: fin de lecture\n");
-															return 0; }
-.														{ printf("lex: création token %s\n", yytext);
-															return yytext[0]; }
+
+(0|[1-9][0-9]*)(\.[0-9]*)?	{ yylval.number=atof(yytext);	return NUMBER; }
+True|False 									{ yylval.number=(yytext[0] == 'F')?0:1; return BOOLEAN; }
+[ \t\r\n]										{ ; }	// separator
+<<EOF>>											{ return 0; }
+.														{ return yytext[0]; }
+
 %%
 int yywrap(void){ return 1; } 	// function called at the end of the file
