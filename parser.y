@@ -14,6 +14,7 @@
 %token BOOLEAN
 %token NaN
 %token SNUMBER
+%token import IDENT
 %start program      // main non-terminal
 
 %left '<' '='
@@ -30,6 +31,7 @@ program:
 
 command:					// a command is
 	expression ';'	// an expression followed by a semicolon
+| import IDENT
 ;
 
 expression:										// an expression is
