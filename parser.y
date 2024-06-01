@@ -15,6 +15,8 @@
 %parse-param {AST_comm* rez}
 %union {AST_expr expr; double number;}
 %token <number> NUMBER				// kinds of non-trivial tokens expected from the lexer
+%token <number> SNUMBER
+%token <number> NaN
 %token <number> BOOLEAN
 %type <expr> expression 
 %start command			// main non-terminal
@@ -47,7 +49,7 @@ expression:										// an expression is
 | '-' expression %prec UMOINS	// or the negation of an expression
 		{ $$=new_unary_expr('M', $2); }
 | NUMBER											// or a NUMBER
-		{ $$=new_number_expr($1); }
+		{ $$=new_number_expr($1, 'N'); }
 | expression '<' '=' expression
 		{ $$=new_binary_expr('L', $1, $4); }
 | expression '=' '=' expression
@@ -57,7 +59,11 @@ expression:										// an expression is
 | '!' expression %prec NOT
 		{ $$=new_unary_expr('!', $2); }
 | BOOLEAN											// or a BOOLEAN
-		{ $$=new_boolean_expr($1); }
+		{ $$=new_number_expr($1, 'B'); }
+| NaN
+		{ $$=new_number_expr($1, 'n'); }
+| SNUMBER
+		{ $$=new_number_expr($1, 'S'); }
 ;
 
 %%	// denotes the end of the grammar
