@@ -121,6 +121,9 @@ void print_code_rec(AST_expr t){
 			case 'N':
 				printf("CstNb %g\n", t->number);
 				break;
+			case 'B':
+				printf("CsteBo %s\n", (t->number == 0)?"False":"True");
+				break;
 			case '+':
 				printf("AddiNb\n");
 				break;
@@ -138,6 +141,18 @@ void print_code_rec(AST_expr t){
 				break;
 			case '%':
 				printf("ModuNb\n");
+				break;
+			case 'L': // <=
+				printf("LoEqNb\n");
+				break;
+			case 'E': // ==
+				printf("Equals\n");
+				break;
+			case '<':
+				printf("LoStNb\n");
+				break;
+			case '!':
+				printf("Not\n");
 				break;
 			default:
 				perror("Erreur\n");
