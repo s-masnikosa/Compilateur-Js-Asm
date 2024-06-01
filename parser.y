@@ -39,6 +39,8 @@ expression:										// an expression is
 | expression '<' expression
 | '!' expression %prec NOT
 | BOOLEAN											// or a BOOLEAN
+| NaN
+| SNUMBER
 ;
 
 %%	// denotes the end of the grammar
