@@ -11,9 +11,9 @@
 
 %%
 
-(0|[1-9][0-9]*)(\.[0-9]*)?	                    { yylval.number=atof(yytext);	
+[0-9]+(\.[0-9]*)?                               { yylval.number=atof(yytext);	
                                                   return NUMBER; }
-(0|[1-9][0-9]*)(\.[0-9]*)?(\e[-]?[1-9][0-9]*)?  { 
+([0-9]*)(\.[0-9]*)?(\e[-]?[1-9][0-9]*)?         { yylval.number=atof(yytext);
                                                   return NUMBER; }
 NaN                                             { yylval.number=nan(yytext);
                                                   return NUMBER; }
