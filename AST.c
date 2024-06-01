@@ -65,7 +65,7 @@ void print_expr(AST_expr t){
     printf("[ ");
     print_expr(t->left);
     if (t->left==NULL && t->rule == 'N') 
-			printf(":%lf: ",t->number); 
+			printf(":%g: ",t->number); 
 		else 
 			printf(":%c: ",t->rule);
     print_expr(t->right);
@@ -94,7 +94,7 @@ void print_code_rec(AST_expr t){
 		print_code_rec(t->right);
 		switch(t->rule){
 			case 'N':
-				printf("CstNb %d\n", t->number);
+				printf("CstNb %g\n", t->number);
 				break;
 			case '+':
 				printf("AddiNb\n");
@@ -107,6 +107,9 @@ void print_code_rec(AST_expr t){
 				break;
 			case 'M':
 				printf("NegaNb\n");
+				break;
+			case '/':
+				printf("DivNb\n");
 				break;
 			default:
 				perror("Erreur\n");
