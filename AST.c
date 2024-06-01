@@ -107,52 +107,52 @@ void print_comm(AST_comm t){
 
 }
 
-void print_code(AST_comm t){
+void print_code(AST_comm t, FILE* output){
 	printf("\nLe code \"%c\" compilé \n\n", t->rule);
-	print_code_rec(t->expr1);
-	printf("Halt\n");
+	print_code_rec(t->expr1, output);
+	fprintf(output, "Halt\n");
 }
 
-void print_code_rec(AST_expr t){
+void print_code_rec(AST_expr t, FILE* output){
 	if(t!=NULL){
-		print_code_rec(t->left);
-		print_code_rec(t->right);
+		print_code_rec(t->left, output);
+		print_code_rec(t->right, output);
 		switch(t->rule){
 			case 'N':
-				printf("CstNb %g\n", t->number);
+				fprintf(output, "CstNb %g\n", t->number);
 				break;
 			case 'B':
-				printf("CsteBo %s\n", (t->number == 0)?"False":"True");
+				fprintf(output, "CsteBo %s\n", (t->number == 0)?"False":"True");
 				break;
 			case '+':
-				printf("AddiNb\n");
+				fprintf(output, "AddiNb\n");
 				break;
 			case '*':
-				printf("MultNb\n");
+				fprintf(output, "MultNb\n");
 				break;
 			case '-':
-				printf("SubiNb\n");
+				fprintf(output, "SubiNb\n");
 				break;
 			case 'M':
-				printf("NegaNb\n");
+				fprintf(output, "NegaNb\n");
 				break;
 			case '/':
-				printf("DivNb\n");
+				fprintf(output, "DivNb\n");
 				break;
 			case '%':
-				printf("ModuNb\n");
+				fprintf(output, "ModuNb\n");
 				break;
 			case 'L': // <=
-				printf("LoEqNb\n");
+				fprintf(output, "LoEqNb\n");
 				break;
 			case 'E': // ==
-				printf("Equals\n");
+				fprintf(output, "Equals\n");
 				break;
 			case '<':
-				printf("LoStNb\n");
+				fprintf(output, "LoStNb\n");
 				break;
 			case '!':
-				printf("Not\n");
+				fprintf(output, "Not\n");
 				break;
 			default:
 				perror("Erreur\n");
