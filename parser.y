@@ -10,11 +10,11 @@
  int yyerror(const char*);	// on generated functions 
 %}
 
-%token FLOAT				// kinds of non-trivial tokens expected from the lexer
+%token NUMBER				// kinds of non-trivial tokens expected from the lexer
 %start command			// main non-terminal
 
 %left '+' '-'
-%left '*' '/'
+%left '*' '/' '%'
 %nonassoc UMOINS
 
 %%	// denotes the begining of the grammar with bison-specific syntax
@@ -28,9 +28,10 @@ expression:										// an expression is
 |	expression '-' expression		// or an expression minus an expression
 | expression '*' expression		// or an expression times an expression
 | expression '/' expression		// or an expression divided by an expression
+| expression '%' expression		// or an expression modulo an expression
 | '(' expression ')'					// or an expression surounded by parentheses
 | '-' expression %prec UMOINS	// or the negation of an expression
-| FLOAT												// or a NUMBER
+| NUMBER											// or a NUMBER
 ;
 
 %%	// denotes the end of the grammar
