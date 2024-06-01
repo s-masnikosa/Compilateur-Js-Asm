@@ -11,5 +11,6 @@ make
 Utilisation:
 
 File: On donne un fichier en entré du logiciel
+Output : le nom du fichier en sortie, si non fournie stdout
 
-./main <file>
+./main <file> <output>
