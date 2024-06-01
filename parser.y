@@ -53,7 +53,7 @@ expression:										// an expression is
 | expression '=' '=' expression
 		{ $$=new_binary_expr('E', $1, $4); }
 | expression '<' expression
-		{ $$=new_binary_expr('l', $1, $3); }
+		{ $$=new_binary_expr('<', $1, $3); }
 | '!' expression %prec NOT
 		{ $$=new_unary_expr('!', $2); }
 | BOOLEAN											// or a BOOLEAN
