@@ -11,7 +11,7 @@ int main(void){
 	if(!yyparse(&rez)){ 							// call to the parsing (and lexing) function
 		printf("\nParsing:: C'est bien une expression arithmétique\n");
 		rez->rule = 'C';
-		print_comm(rez);
+		print_code(rez);
 	}
 	exit(EXIT_SUCCESS);
 }
