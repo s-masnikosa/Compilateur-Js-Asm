@@ -19,7 +19,7 @@
 %token <number> NaN
 %token <number> BOOLEAN
 %type <expr> expression 
-%start command			// main non-terminal
+%start program			// main non-terminal
 
 %left '<' '='
 %left '+' '-'
@@ -27,6 +27,11 @@
 %nonassoc UMOINS NOT
 
 %%	// denotes the begining of the grammar with bison-specific syntax
+
+program:
+  /* epsilon */
+| command program
+;
 
 command:					// a command is
 	expression ';'	// an expression followed by a semicolon

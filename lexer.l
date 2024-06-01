@@ -14,9 +14,9 @@
 [0-9]+(\.[0-9]*)?                               { yylval.number=atof(yytext);	
                                                   return NUMBER; }
 ([0-9]*)(\.[0-9]*)?(\e[-]?[1-9][0-9]*)?         { yylval.number=atof(yytext);
-                                                  return NUMBER; }
+                                                  return SNUMBER; }
 NaN                                             { yylval.number=NAN;
-                                                  return NUMBER; }
+                                                  return NaN; }
 True|False 									                    { yylval.number=(yytext[0] == 'F')?0:1;
                                                   return BOOLEAN; }
 [ \t\r\n]										                    { ; }	// separator
