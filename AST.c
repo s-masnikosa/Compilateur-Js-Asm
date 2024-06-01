@@ -112,6 +112,12 @@ void print_code_rec(AST_expr t, FILE* output){
 			case 'N':
 				fprintf(output, "CstNb %g\n", t->number);
 				break;
+			case 'n':
+				fprintf(output, "CstNb %lf\n", t->number);
+				break;
+			case 'S':
+				fprintf(output, "CstNb %e\n", t->number);
+				break;
 			case 'B':
 				fprintf(output, "CsteBo %s\n", (t->number == 0)?"False":"True");
 				break;
