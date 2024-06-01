@@ -13,13 +13,13 @@
 %}
 
 %parse-param {AST_comm* rez}
-%union {AST_expr expr; int number;}
+%union {AST_expr expr; double number;}
 %token <number> NUMBER				// kinds of non-trivial tokens expected from the lexer
 %type <expr> expression 
 %start command			// main non-terminal
 
 %left '+' '-'
-%left '*'
+%left '*' '/' '%'
 %nonassoc UMOINS
 
 %%	// denotes the begining of the grammar with bison-specific syntax
@@ -36,6 +36,10 @@ expression:										// an expression is
 		{ $$=new_binary_expr('-', $1, $3); }
 | expression '*' expression		// or an expression times an expression
 		{ $$=new_binary_expr('*', $1, $3); }
+| expression '/' expression		// or an expression divided by an expression
+		{ $$=new_binary_expr('/', $1, $3); }
+| expression '%' expression		// or an expression modulo an expression
+		{ $$=new_binary_expr('%', $1, $3); }
 | '(' expression ')'					// or an expression surounded by parentheses
 		{ $$=$2; }
 | '-' expression %prec UMOINS	// or the negation of an expression
