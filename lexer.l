@@ -11,7 +11,7 @@
 %%
 
 (0|[1-9][0-9]*)(\.[0-9]*)?                      { return NUMBER; }
-(0|[1-9][0-9]*)(\.[0-9]*)?(\e[-]?[1-9][0-9]*)?  { return NUMBER; }
+([0-9]*)(\.[0-9]*)?(\e[-]?[1-9][0-9]*)?         { return NUMBER; }
 NaN                                             { return NUMBER; }
 True|False                                      { return BOOLEAN; }
 [ \t\r\n]                                       { ; }	// separator
