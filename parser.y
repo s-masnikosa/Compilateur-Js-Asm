@@ -19,7 +19,7 @@
 %start command			// main non-terminal
 
 %left '+' '-'
-%left '*' '/'
+%left '*' '/' '%'
 %nonassoc UMOINS
 
 %%	// denotes the begining of the grammar with bison-specific syntax
@@ -38,6 +38,8 @@ expression:										// an expression is
 		{ $$=new_binary_expr('*', $1, $3); }
 | expression '/' expression		// or an expression divided by an expression
 		{ $$=new_binary_expr('/', $1, $3); }
+| expression '%' expression		// or an expression modulo an expression
+		{ $$=new_binary_expr('%', $1, $3); }
 | '(' expression ')'					// or an expression surounded by parentheses
 		{ $$=$2; }
 | '-' expression %prec UMOINS	// or the negation of an expression

@@ -65,7 +65,7 @@ void print_expr(AST_expr t){
     printf("[ ");
     print_expr(t->left);
     if (t->left==NULL && t->rule == 'N') 
-			printf(":%lf: ",t->number); 
+			printf(":%g: ",t->number); 
 		else 
 			printf(":%c: ",t->rule);
     print_expr(t->right);
