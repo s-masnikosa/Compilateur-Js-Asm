@@ -111,6 +111,9 @@ void print_code_rec(AST_expr t){
 			case '/':
 				printf("DivNb\n");
 				break;
+			case '%':
+				printf("ModuNb\n");
+				break;
 			default:
 				perror("Erreur\n");
 				exit(-1);
