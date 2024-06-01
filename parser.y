@@ -10,9 +10,11 @@
  int yyerror(const char*);	// on generated functions 
 %}
 
-%token NUMBER				// kinds of non-trivial tokens expected from the lexer
+%token NUMBER       // kinds of non-trivial tokens expected from the lexer
 %token BOOLEAN
-%start command			// main non-terminal
+%token NaN
+%token SNUMBER
+%start command      // main non-terminal
 
 %left '<' '='
 %left '+' '-'
