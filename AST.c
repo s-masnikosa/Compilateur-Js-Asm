@@ -81,3 +81,37 @@ void print_comm(AST_comm t){
   }
 
 }
+
+void print_code(AST_comm t){
+	printf("\nLe code \"%c\" compilé \n\n", t->rule);
+	print_code_rec(t->expr1);
+	printf("Halt\n");
+}
+
+void print_code_rec(AST_expr t){
+	if(t!=NULL){
+		print_code_rec(t->left);
+		print_code_rec(t->right);
+		switch(t->rule){
+			case 'N':
+				printf("CstNb %d\n", t->number);
+				break;
+			case '+':
+				printf("AddiNb\n");
+				break;
+			case '*':
+				printf("MultNb\n");
+				break;
+			case '-':
+				printf("SubiNb\n");
+				break;
+			case 'M':
+				printf("NegaNb\n");
+				break;
+			default:
+				perror("Erreur\n");
+				exit(-1);
+				break;
+		}
+	}
+}

@@ -34,3 +34,7 @@ void free_comm(AST_comm t);
 /* print an AST*/
 void print_expr(AST_expr t);
 void print_comm(AST_comm t);
+
+/* print code */
+void print_code(AST_comm t);
+void print_code_rec(AST_expr t);
