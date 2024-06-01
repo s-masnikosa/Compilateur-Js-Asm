@@ -20,7 +20,7 @@ AST_expr new_unary_expr(char rule, AST_expr son)
 }
 
 /* create an AST leaf from a value */
-AST_expr new_number_expr(int number)
+AST_expr new_number_expr(double number)
 {
   AST_expr t=(struct _expr_tree*) malloc(sizeof(struct _expr_tree));
   if (t!=NULL){	/* malloc ok */
@@ -65,7 +65,7 @@ void print_expr(AST_expr t){
     printf("[ ");
     print_expr(t->left);
     if (t->left==NULL && t->rule == 'N') 
-			printf(":%d: ",t->number); 
+			printf(":%lf: ",t->number); 
 		else 
 			printf(":%c: ",t->rule);
     print_expr(t->right);
