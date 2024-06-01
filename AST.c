@@ -20,31 +20,17 @@ AST_expr new_unary_expr(char rule, AST_expr son)
 }
 
 /* create an AST leaf from a value */
-AST_expr new_number_expr(double number)
+AST_expr new_number_expr(double number, char type)
 {
   AST_expr t=(struct _expr_tree*) malloc(sizeof(struct _expr_tree));
   if (t!=NULL){	/* malloc ok */
-    t->rule='N';
+    t->rule=type;
     t->number=number;
     t->left=NULL;
     t->right=NULL;
   } else printf("ERR : MALLOC ");
   return t;
 }
-
-/* create an AST leaf from a value */
-AST_expr new_boolean_expr(double number)
-{
-  AST_expr t=(struct _expr_tree*) malloc(sizeof(struct _expr_tree));
-  if (t!=NULL){	/* malloc ok */
-    t->rule='B';
-    t->number=number;
-    t->left=NULL;
-    t->right=NULL;
-  } else printf("ERR : MALLOC ");
-  return t;
-}
-
 
 /* create an AST leaf from a value */
 AST_comm new_command(AST_expr expression){
@@ -83,6 +69,11 @@ void print_expr(AST_expr t){
 		  case 'B':
 		  	printf(":%s: ", (t->number == 0)?"True":"False");
 				break;
+			case 'n':
+				printf(":%lf: ", t->number);
+				break;
+			case 'S':
+				printf(":%e: ", t->number);
 			default:
 				if(t->left != NULL)
 					print_expr(t->left);
