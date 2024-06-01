@@ -10,11 +10,12 @@
 
 %%
 
-(0|[1-9][0-9]*)(\.[0-9]*)?	{ return NUMBER; }
-True|False 									{ return BOOLEAN; }
-[ \t\r\n]										{ ; }	// separator
-<<EOF>>											{ return 0; }
-.														{ return yytext[0]; }
+(0|[1-9][0-9]*)(\.[0-9]*)?(\e[-]?[1-9][0-9]*)?  { return NUMBER; }
+NaN                                             { return NUMBER; }
+True|False                                      { return BOOLEAN; }
+[ \t\r\n]                                       { ; }	// separator
+<<EOF>>                                         { return 0; }
+.                                               { return yytext[0]; }
 
 %%
 int yywrap(void){ return 1; } 	// function called at the end of the file
