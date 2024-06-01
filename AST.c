@@ -64,17 +64,20 @@ void print_expr(AST_expr t){
   if (t!=NULL) {
     printf("[ ");
     print_expr(t->left);
-    if (t->left==NULL) printf(":%d: ",t->number); else printf(":%c: ",t->rule);
+    if (t->left==NULL && t->rule == 'N') 
+			printf(":%d: ",t->number); 
+		else 
+			printf(":%c: ",t->rule);
     print_expr(t->right);
     printf("] ");
   }
 }
 void print_comm(AST_comm t){
   if (t!=NULL) {
-    printf("[ ");
-    printf(":%c: ",t->rule);
+    printf(" ");
+    printf("%c: ",t->rule);
     print_expr(t->expr1);
-    printf("] ");
+    printf(" \n");
   }
 
 }

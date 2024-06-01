@@ -4,10 +4,14 @@
  */
 #include <stdio.h>
 #include <stdlib.h>
-extern int yyparse(void);			// avoid implicit call
+#include "AST.h"
+extern int yyparse(AST_comm* rez);			// avoid implicit call
 int main(void){
-	if(!yyparse()){ 							// call to the parsing (and lexing) function
+	AST_comm rez;
+	if(!yyparse(&rez)){ 							// call to the parsing (and lexing) function
 		printf("\nParsing:: C'est bien une expression arithmétique\n");
+		rez->rule = 'C';
+		print_comm(rez);
 	}
 	exit(EXIT_SUCCESS);
 }

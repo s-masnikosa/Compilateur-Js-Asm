@@ -1,7 +1,7 @@
 all: main cleanpl
 
 main: bison flex
-	gcc -o main main.c parser.tab.c lex.yy.c
+	gcc -o main main.c parser.tab.c lex.yy.c AST.c
 
 flex:
 	flex lexer.l
