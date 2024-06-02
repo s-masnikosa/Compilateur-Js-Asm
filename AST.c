@@ -4,7 +4,7 @@
 
 /* create an AST from a root value and two AST sons */
 AST_expr new_binary_expr(char rule, AST_expr left, AST_expr right) {
-  AST_expr t=(struct _expr_tree*) malloc(sizeof(struct _expr_tree));
+	  AST_expr t=(struct _expr_tree*) malloc(sizeof(struct _expr_tree));
   if (t!=NULL){	/* malloc ok */
     t->rule=rule;
     t->left=left;
@@ -23,8 +23,19 @@ AST_expr new_unary_expr(char rule, AST_expr son)
 AST_expr new_number_expr(char rule, double number)
 {
 	AST_expr t=new_binary_expr(rule, NULL, NULL);
-	t->number=number;
+	if(t!=NULL) t->number=number;
 	return t;
+}
+
+AST_expr new_variable_expr(char* vname){
+	AST_expr t=(struct _expr_tree*) malloc(sizeof(struct _expr_tree));
+  if (t!=NULL){	/* malloc ok */
+    t->rule='V';
+    t->left=NULL;
+    t->right=NULL;
+		t->var = vname;
+  } else printf("ERR : MALLOC ");
+  return t;
 }
 
 /* create an AST leaf from a value */
