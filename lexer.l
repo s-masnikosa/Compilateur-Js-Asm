@@ -19,6 +19,9 @@ NaN                                             { yylval.number=NAN;
                                                   return NaN; }
 True|False 									                    { yylval.number=(yytext[0] == 'F')?0:1;
                                                   return BOOLEAN; }
+import                                          { return IMPORT; }
+[a-z]([[:alnum:]]|[_])*                         { yylval.vname=yytext;
+																									return IDENT; }
 [ \t\r\n]										                    { ; }	// separator
 <<EOF>>											                    { return 0; }
 .														                    { return yytext[0]; }

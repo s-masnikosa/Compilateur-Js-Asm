@@ -1,9 +1,10 @@
 /* unary-and-binary tree structure */
 struct _expr_tree {
-  char rule;                    /* "name" of the rule/operation operation */
+  char rule;                       /* "name" of the rule/operation operation */
   double number;                   /* int  for value */
-  struct _expr_tree* left;           /* NULL if unary node or leaf*/
-  struct _expr_tree* right;          /* used for unary node but NULL if leaf */
+  char* var;                       /* variable name */
+	struct _expr_tree* left;         /* NULL if unary node or leaf*/
+  struct _expr_tree* right;        /* used for unary node but NULL if leaf */
 };
 
 typedef struct _expr_tree* AST_expr;
@@ -30,6 +31,9 @@ AST_expr new_unary_expr(char rule, AST_expr son);
 
 /* create an AST leaf from a value */
 AST_expr new_number_expr(char rule, double number);
+
+/* create a new variable from a string */
+AST_expr new_variable_expr(char* vname);
 
 /* create an AST root from an expression */
 AST_comm new_command(AST_expr expression);
