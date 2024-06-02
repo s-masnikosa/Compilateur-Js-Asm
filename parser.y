@@ -13,11 +13,12 @@
 %}
 
 %parse-param {LIST_prog* rez}
-%union {AST_comm comm; AST_expr expr; double number;}
+%union {AST_comm comm; AST_expr expr; double number; char* vname;}
 %token <number> NUMBER				// kinds of non-trivial tokens expected from the lexer
 %token <number> SNUMBER
 %token <number> NaN
 %token <number> BOOLEAN
+%token IMPORT <vname>IDENT
 %type <expr> expression
 %type <comm> command
 %start program			// main non-terminal
@@ -38,6 +39,8 @@ program:
 command:					// a command is
 	expression ';'	// an expression followed by a semicolon
 		{ $$ = new_command($1); }
+| IMPORT IDENT ';'
+		{ $$ = new_import($2); }
 ;
 
 expression:										// an expression is
