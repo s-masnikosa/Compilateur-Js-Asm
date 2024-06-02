@@ -1,3 +1,4 @@
+#include <string.h>
 /* unary-and-binary tree structure */
 struct _expr_tree {
   char rule;                       /* "name" of the rule/operation operation */

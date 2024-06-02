@@ -188,6 +188,16 @@ void print_code_rec(AST_expr t, FILE* output){
 			case '!':
 				fprintf(output, "Not\n");
 				break;
+			case 'I':
+				FILE* f = fopen(strcat(t->var, ".jsm"), "r");
+				if(f == NULL){
+					fprintf(stderr, "Le fichier \"%s\" n'a pas été trouvé\n", t->var);
+					exit(EXIT_FAILURE);
+				}
+				char c;
+				while( (c = fgetc(f)) != EOF )
+					fputc(c, output);
+				break;
 			default:
 				perror("Erreur\n");
 				exit(-1);
