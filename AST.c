@@ -144,6 +144,8 @@ void print_code(AST_comm t, FILE* output){
 void print_code_rec(AST_expr t, FILE* output){
 	if(t!=NULL){
 		print_code_rec(t->left, output);
+		if(t->rule == '&')
+			fprintf(output, "ConJmp %d\n", sizeof_expr(t->right) + 1);
 		print_code_rec(t->right, output);
 		switch(t->rule){
 			case 'N':
@@ -198,6 +200,9 @@ void print_code_rec(AST_expr t, FILE* output){
 				while( (c = fgetc(f)) != EOF )
 					fputc(c, output);
 				break;
+			case '&':
+				fprintf(output, "Jump 1\nCsteBo False\n");
+				break;
 			default:
 				perror("Erreur\n");
 				exit(-1);
@@ -220,7 +225,11 @@ void print_prog_code_rec(LIST_prog l, FILE* output){
 	}
 }
 
-
+int sizeof_expr(AST_expr expr){
+	if(expr == NULL)
+		return 0;
+	return sizeof_expr(expr->left) + sizeof_expr(expr->right) + 1;
+}
 
 
 
