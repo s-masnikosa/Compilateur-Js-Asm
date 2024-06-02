@@ -4,7 +4,7 @@
 
 /* create an AST from a root value and two AST sons */
 AST_expr new_binary_expr(char rule, AST_expr left, AST_expr right) {
-  AST_expr t=(struct _expr_tree*) malloc(sizeof(struct _expr_tree));
+	  AST_expr t=(struct _expr_tree*) malloc(sizeof(struct _expr_tree));
   if (t!=NULL){	/* malloc ok */
     t->rule=rule;
     t->left=left;
@@ -23,8 +23,19 @@ AST_expr new_unary_expr(char rule, AST_expr son)
 AST_expr new_number_expr(char rule, double number)
 {
 	AST_expr t=new_binary_expr(rule, NULL, NULL);
-	t->number=number;
+	if(t!=NULL) t->number=number;
 	return t;
+}
+
+AST_expr new_variable_expr(char rule, char* vname){
+	AST_expr t=(struct _expr_tree*) malloc(sizeof(struct _expr_tree));
+  if (t!=NULL){	/* malloc ok */
+    t->rule=rule;
+    t->left=NULL;
+    t->right=NULL;
+		t->var = vname;
+  } else printf("ERR : MALLOC ");
+  return t;
 }
 
 /* create an AST leaf from a value */
@@ -54,7 +65,8 @@ void free_expr(AST_expr t)
   if (t!=NULL) {
     free_expr(t->left);
     free_expr(t->right);
-    free(t);
+		free(t->var);
+		free(t);
   }
 }
 void free_comm(AST_comm t)
@@ -87,6 +99,12 @@ void print_expr(AST_expr t){
 				break;
 			case 'S':
 				printf(":%g: ", t->number);
+				break;
+			case 'V':
+				printf(":%s: ", t->var);
+				break;
+			case 'I':
+				printf(":I: %s.jsm ", t->var);
 				break;
 			default:
 				if(t->left != NULL)
@@ -169,6 +187,16 @@ void print_code_rec(AST_expr t, FILE* output){
 				break;
 			case '!':
 				fprintf(output, "Not\n");
+				break;
+			case 'I':
+				FILE* f = fopen(strcat(t->var, ".jsm"), "r");
+				if(f == NULL){
+					fprintf(stderr, "Le fichier \"%s\" n'a pas été trouvé\n", t->var);
+					exit(EXIT_FAILURE);
+				}
+				char c;
+				while( (c = fgetc(f)) != EOF )
+					fputc(c, output);
 				break;
 			default:
 				perror("Erreur\n");

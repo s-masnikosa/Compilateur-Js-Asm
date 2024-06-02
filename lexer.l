@@ -6,6 +6,7 @@
 %{
  #include <stdio.h>       // printf
  #include <math.h>        // float Scientifique et NaN
+ #include <string.h>
  #include "parser.tab.h"  // token constants defined un parser.y via #define
 %}
 
@@ -19,6 +20,10 @@ NaN                                             { yylval.number=NAN;
                                                   return NaN; }
 True|False 									                    { yylval.number=(yytext[0] == 'F')?0:1;
                                                   return BOOLEAN; }
+import                                          { return IMPORT; }
+[a-z][a-zA-Z0-9_]*                              { yylval.vname = (char*)malloc(strlen(yytext));
+																									strcpy(yylval.vname,yytext);
+																									return IDENT; }
 [ \t\r\n]										                    { ; }	// separator
 <<EOF>>											                    { return 0; }
 .														                    { return yytext[0]; }
