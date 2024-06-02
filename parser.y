@@ -12,14 +12,15 @@
  int yyerror(void* rez, const char*);	// on generated functions 
 %}
 
-%parse-param {AST_comm* rez}
-%union {AST_expr expr; double number;}
+%parse-param {LIST_prog* rez}
+%union {AST_comm comm; AST_expr expr; double number;}
 %token <number> NUMBER				// kinds of non-trivial tokens expected from the lexer
 %token <number> SNUMBER
 %token <number> NaN
 %token <number> BOOLEAN
-%type <expr> expression 
-%start command			// main non-terminal
+%type <expr> expression
+%type <comm> command
+%start program			// main non-terminal
 
 %left '<' '='
 %left '+' '-'
@@ -28,9 +29,15 @@
 
 %%	// denotes the begining of the grammar with bison-specific syntax
 
+program:
+  /* epsilon */
+| command program
+		{ *rez = new_program(*rez, $1); }
+;
+
 command:					// a command is
 	expression ';'	// an expression followed by a semicolon
-		{ *rez = new_command($1); }
+		{ $$ = new_command($1); }
 ;
 
 expression:										// an expression is
@@ -49,7 +56,7 @@ expression:										// an expression is
 | '-' expression %prec UMOINS	// or the negation of an expression
 		{ $$=new_unary_expr('M', $2); }
 | NUMBER											// or a NUMBER
-		{ $$=new_number_expr($1, 'N'); }
+		{ $$=new_number_expr('N', $1); }
 | expression '<' '=' expression
 		{ $$=new_binary_expr('L', $1, $4); }
 | expression '=' '=' expression
@@ -59,11 +66,11 @@ expression:										// an expression is
 | '!' expression %prec NOT
 		{ $$=new_unary_expr('!', $2); }
 | BOOLEAN											// or a BOOLEAN
-		{ $$=new_number_expr($1, 'B'); }
+		{ $$=new_number_expr('B', $1); }
 | NaN
-		{ $$=new_number_expr($1, 'n'); }
+		{ $$=new_number_expr('n', $1); }
 | SNUMBER
-		{ $$=new_number_expr($1, 'S'); }
+		{ $$=new_number_expr('S', $1); }
 ;
 
 %%	// denotes the end of the grammar
