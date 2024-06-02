@@ -51,3 +51,6 @@ void print_prog(LIST_prog l);
 void print_code(AST_comm t, FILE* output);
 void print_code_rec(AST_expr t, FILE* output);
 
+void print_prog_code(LIST_prog p, FILE* output);
+void print_prog_code_rec(LIST_prog p, FILE* output);
+

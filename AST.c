@@ -91,7 +91,7 @@ void print_expr(AST_expr t){
 			default:
 				if(t->left != NULL)
 					print_expr(t->left);
-					printf(":%c: ", t->rule);
+				printf(":%c: ", t->rule);
 				print_expr(t->right);
 				break;
     }
@@ -119,9 +119,8 @@ void print_prog(LIST_prog l){
 }
 
 void print_code(AST_comm t, FILE* output){
-	printf("\nLe code \"%c\" compilé \n\n", t->rule);
 	print_code_rec(t->expr1, output);
-	fprintf(output, "Halt\n");
+	fprintf(output, "Drop\n");
 }
 
 void print_code_rec(AST_expr t, FILE* output){
@@ -136,7 +135,7 @@ void print_code_rec(AST_expr t, FILE* output){
 				fprintf(output, "CstNb %lf\n", t->number);
 				break;
 			case 'S':
-				fprintf(output, "CstNb %e\n", t->number);
+				fprintf(output, "CstNb %g\n", t->number);
 				break;
 			case 'B':
 				fprintf(output, "CsteBo %s\n", (t->number == 0)?"False":"True");
@@ -178,3 +177,39 @@ void print_code_rec(AST_expr t, FILE* output){
 		}
 	}
 }
+
+void print_prog_code(LIST_prog l, FILE* output){
+	printf("\nCompilation..\n");
+	print_prog_code_rec(l, output);
+	fprintf(output, "Halt");
+	printf("\nLe code a été compilé avec succès\n");
+}
+
+void print_prog_code_rec(LIST_prog l, FILE* output){
+	if(l != NULL){
+		print_code(l->command, output);
+		print_prog_code_rec(l->next, output);
+	}
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

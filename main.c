@@ -32,7 +32,7 @@ int main(int argc, char** argv){
 	
 	if(!yyparse(&rez)){ 							// call to the parsing (and lexing) function
 		printf("\nParsing:: C'est bien une expression arithmétique\n");
-		print_code(rez, output);
+		print_prog_code(rez, output);
 		free_prog(rez);
 	}
 
