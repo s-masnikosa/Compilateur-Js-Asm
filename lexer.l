@@ -11,7 +11,7 @@
 
 %%
 
-[0-9]+(\.[0-9]*)?                               { yylval.number=atof(yytext);	
+[0-9]+(\.[0-9]*)?                               { yylval.number=atof(yytext);
                                                   return NUMBER; }
 ([0-9]*)(\.[0-9]*)?(\e[-]?[1-9][0-9]*)?         { yylval.number=atof(yytext);
                                                   return SNUMBER; }

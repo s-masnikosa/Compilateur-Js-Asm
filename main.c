@@ -5,7 +5,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "AST.h"
-extern int yyparse(AST_comm* rez);			// avoid implicit call
+extern int yyparse(LIST_prog* rez);			// avoid implicit call
 extern FILE* yyin;
 int main(int argc, char** argv){
 	if(argc > 1){
@@ -16,12 +16,13 @@ int main(int argc, char** argv){
 		}
 	}
 	
-	AST_comm rez;
-
+	LIST_prog rez = NULL;
+	
 	if(!yyparse(&rez)){ 							// call to the parsing (and lexing) function
 		printf("\nParsing:: C'est bien une expression arithmétique\n");
-		rez->rule = 'C';
-		print_comm(rez);
+		print_prog(rez);
+		free_prog(rez);
 	}
+
 	exit(EXIT_SUCCESS);
 }
