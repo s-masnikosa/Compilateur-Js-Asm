@@ -15,6 +15,13 @@ struct _command_tree {
 
 typedef struct _command_tree* AST_comm;
 
+struct _program_list{
+	AST_comm command;
+	struct _program_list* next;
+};
+
+typedef struct _program_list* LIST_prog;
+
 /* create an AST from a root value and two AST sons */
 AST_expr new_binary_expr(char rule, AST_expr left, AST_expr right);
 
@@ -22,19 +29,28 @@ AST_expr new_binary_expr(char rule, AST_expr left, AST_expr right);
 AST_expr new_unary_expr(char rule, AST_expr son);
 
 /* create an AST leaf from a value */
-AST_expr new_number_expr(double number, char type);
+AST_expr new_number_expr(char rule, double number);
 
-/* create an AST leaf from a value */
+/* create an AST root from an expression */
 AST_comm new_command(AST_expr expression);
+
+/* create a Link from a command */
+LIST_prog new_program(LIST_prog p, AST_comm command);
 
 /* delete an AST */
 void free_expr(AST_expr t);
 void free_comm(AST_comm t);
+void free_prog(LIST_prog l);
 
 /* print an AST*/
 void print_expr(AST_expr t);
 void print_comm(AST_comm t);
+void print_prog(LIST_prog l);
 
 /* print code */
 void print_code(AST_comm t, FILE* output);
 void print_code_rec(AST_expr t, FILE* output);
+
+void print_prog_code(LIST_prog p, FILE* output);
+void print_prog_code_rec(LIST_prog p, FILE* output);
+
