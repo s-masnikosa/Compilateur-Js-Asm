@@ -17,7 +17,7 @@
 %token IMPORT IDENT
 %start program      // main non-terminal
 
-%left '<' '='
+%left '<' '=' '&'
 %left '+' '-'
 %left '*' '/' '%'
 %nonassoc UMOINS NOT
@@ -47,6 +47,7 @@ expression:										// an expression is
 | expression '=' '=' expression 
 | expression '<' expression
 | '!' expression %prec NOT
+| expression '&' '&' expression
 | BOOLEAN											// or a BOOLEAN
 | NaN
 | SNUMBER
