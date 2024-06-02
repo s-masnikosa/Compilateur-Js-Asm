@@ -99,7 +99,10 @@ void print_expr(AST_expr t){
 			case 'S':
 				printf(":%g: ", t->number);
 				break;
-			default:
+			case 'V':
+				printf(":%s: ", t->var);
+				break;
+      default:
 				if(t->left != NULL)
 					print_expr(t->left);
 				printf(":%c: ", t->rule);
