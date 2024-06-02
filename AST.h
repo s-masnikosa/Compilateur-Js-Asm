@@ -33,7 +33,7 @@ AST_expr new_unary_expr(char rule, AST_expr son);
 AST_expr new_number_expr(char rule, double number);
 
 /* create a new variable from a string */
-AST_expr new_variable_expr(char* vname);
+AST_expr new_variable_expr(char rule, char* vname);
 
 /* create an AST root from an expression */
 AST_comm new_command(AST_expr expression);
