@@ -40,7 +40,7 @@ command:					// a command is
 	expression ';'	// an expression followed by a semicolon
 		{ $$ = new_command($1); }
 | IMPORT IDENT ';'
-		{ $$ = new_command(new_unary_expr('I', new_variable_expr($2))); }
+		{ $$ = new_command(new_variable_expr('I', $2)); }
 ;
 
 expression:										// an expression is

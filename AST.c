@@ -27,10 +27,10 @@ AST_expr new_number_expr(char rule, double number)
 	return t;
 }
 
-AST_expr new_variable_expr(char* vname){
+AST_expr new_variable_expr(char rule, char* vname){
 	AST_expr t=(struct _expr_tree*) malloc(sizeof(struct _expr_tree));
   if (t!=NULL){	/* malloc ok */
-    t->rule='V';
+    t->rule=rule;
     t->left=NULL;
     t->right=NULL;
 		t->var = vname;
@@ -65,7 +65,8 @@ void free_expr(AST_expr t)
   if (t!=NULL) {
     free_expr(t->left);
     free_expr(t->right);
-    free(t);
+		free(t->var);
+		free(t);
   }
 }
 void free_comm(AST_comm t)
@@ -102,7 +103,10 @@ void print_expr(AST_expr t){
 			case 'V':
 				printf(":%s: ", t->var);
 				break;
-      default:
+			case 'I':
+				printf(":I: %s.jsm ", t->var);
+				break;
+			default:
 				if(t->left != NULL)
 					print_expr(t->left);
 				printf(":%c: ", t->rule);
