@@ -14,6 +14,8 @@
 ([0-9]*)(\.[0-9]*)?(\e[-]?[1-9][0-9]*)?         { return SNUMBER; }
 NaN                                             { return NaN; }
 True|False                                      { return BOOLEAN; }
+import                                          { return IMPORT; }
+[a-z]([[:alnum:]]|[_])*                               { return IDENT; }
 [ \t\r\n]                                       { ; }	// separator
 <<EOF>>                                         { return 0; }
 .                                               { return yytext[0]; }
