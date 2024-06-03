@@ -10,6 +10,7 @@
  int yyerror(const char*);	// on generated functions 
 %}
 
+%token COMMENT
 %token NUMBER       // kinds of non-trivial tokens expected from the lexer
 %token BOOLEAN
 %token NaN
@@ -26,12 +27,14 @@
 
 program:
   /* epsilon */
+| COMMENT
 | command program
 ;
 
 command:					// a command is
 	expression ';'	// an expression followed by a semicolon
 | IMPORT IDENT ';'
+| COMMENT
 ;
 
 expression:										// an expression is
@@ -49,6 +52,7 @@ expression:										// an expression is
 | '!' expression %prec NOT
 | expression '&' '&' expression
 | BOOLEAN											// or a BOOLEAN
+| COMMENT
 | NaN
 | SNUMBER
 ;
