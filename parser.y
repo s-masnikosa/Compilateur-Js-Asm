@@ -10,10 +10,6 @@
  int yyerror(const char*);	// on generated functions 
 %}
 
-%token EQUALS
-%token LOEQ
-%token AND
-
 %token NUMBER       // kinds of non-trivial tokens expected from the lexer
 %token BOOLEAN
 %token NaN
@@ -22,7 +18,7 @@
 %start program      // main non-terminal
 
 %left '='
-%left EQUALS "==" LOEQ "<=" AND "&&"
+%left "==" "<=" "&&"
 //%left '<' '=' '&'
 %left '+' '-'
 %left '*' '/' '%'
@@ -50,11 +46,11 @@ expression:										// an expression is
 | '(' expression ')'					// or an expression surounded by parentheses
 | '-' expression %prec UMOINS	// or the negation of an expression
 | NUMBER											// or a NUMBER
-| expression LOEQ expression
-| expression EQUALS expression 
+| expression '<' '=' expression
+| expression '=' '=' expression 
 | expression '<' expression
 | '!' expression %prec NOT
-| expression AND expression
+| expression '&' '&' expression
 | BOOLEAN											// or a BOOLEAN
 | NaN
 | SNUMBER
