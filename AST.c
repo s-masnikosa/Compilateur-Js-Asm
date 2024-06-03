@@ -147,6 +147,7 @@ void print_prog(LIST_prog l){
 }
 
 void print_code(AST_comm t, FILE* output){
+	//opt_rec(t->expr1);
 	sizeof_expr(t->expr1);
 	print_code_rec(t->expr1, output);
 	fprintf(output, "Drop\n");
@@ -249,12 +250,108 @@ int sizeof_expr(AST_expr expr){
 	return expr->depth;
 }
 
+char opt_rec(AST_expr expr){
+	if(expr == NULL) return 0;
+	
+	char left = opt_rec(expr->left);
+	char right = opt_rec(expr->right);
+	
+	printf("expr : %c \nleft : %c\nright : %c\n\n", expr->rule, left, right);
+
+	switch(expr->rule){
+		case 'N':
+			return 1;
+			break;
+		case 'S':
+			return 1;
+			break;
+		case 'n':
+			return 1;
+			break;
+		case 'B':
+			return 1;
+			break;
+		case 'V':
+			return 0;
+			break;
+		case '=':
+			return 0;
+			break;
+	}
+
+	if(left){
+		switch(expr->rule){
+			case '+':
+				expr->number = expr->left->number + expr->right->number;
+				break;
+			case '-':
+				expr->number = expr->left->number - expr->right->number;
+				break;
+			case '*':
+				expr->number = expr->left->number * expr->right->number;
+				break;
+			case '/':
+				expr->number = expr->left->number / expr->right->number;
+				break;
+			case 'L':
+				expr->number = (expr->left->number <= expr->right->number)?1:0;
+				goto Boolean;
+				break;
+			case 'E':
+				expr->number = (expr->left->number == expr->right->number)?1:0;
+				goto Boolean;
+				break;
+			case '<':
+				expr->number = (expr->left->number < expr->right->number)?1:0;
+				goto Boolean;
+				break;
+			case '&':
+				expr->number = (expr->left->number && expr->right->number)?1:0;
+				goto Boolean;
+				break;
+			default:
+				return 0;
+				break;
+			}
+
+		if(expr->left->rule == 'n' || expr->right->rule == 'n')
+			expr->rule = 'n';
+		else if(expr->left->rule == 'S' || expr->right->rule == 'S')
+			expr->rule = 'S';
+		else
+			expr->rule = 'N';
+		goto Fin;
+		Boolean:
+		expr->rule = 'B';
+		Fin:
+		free_expr(expr->left);
+		free_expr(expr->right);
+		expr->left = NULL;
+		expr->right = NULL;
+		return 1;
+	}else if(right){
+		switch(expr->rule){
+			case '-':
+				expr->number = - expr->right->number; 
+				expr->rule = expr->right->rule;
+				break;
+			case '!':
+				expr->number = (expr->right->number == 0)?0:1;
+				expr->rule = 'B';
+				break;
+			default:
+				return 0;
+				break;
+		}
+		free_expr(expr->right);
+		expr->right = NULL;
+		return 1;
+	}	
+	return 0;
+}
 
 
-
-
-
-
+	
 
 
 

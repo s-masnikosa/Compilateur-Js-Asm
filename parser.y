@@ -28,7 +28,7 @@
 %type <comm> command
 %start program			// main non-terminal
 
-%left '='
+//%left '='
 %left EQUALS "==" LOEQ "<=" AND "&&"
 //%left '<' '=' '&'
 %left '+' '-'
