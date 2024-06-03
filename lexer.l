@@ -15,8 +15,10 @@
 NaN                                             { return NaN; }
 True|False                                      { return BOOLEAN; }
 import                                          { return IMPORT; }
-[a-z]([[:alnum:]]|[_])*                               { return IDENT; }
+[a-z]([[:alnum:]]|[_])*                         { return IDENT; }
 [ \t\r\n]                                       { ; }	// separator
+"//".*                                          { ; }
+"/*"(.|[\n])*"*/"                               { ; }
 <<EOF>>                                         { return 0; }
 .                                               { return yytext[0]; }
 
