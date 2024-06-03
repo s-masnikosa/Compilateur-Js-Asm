@@ -15,6 +15,10 @@
 %parse-param {LIST_prog* rez}
 %union {AST_comm comm; AST_expr expr; double number; char* vname;}
 
+%token LoEqNb
+%token EqNb
+%token AND
+
 %token <number> NUMBER				// kinds of non-trivial tokens expected from the lexer
 %token <number> SNUMBER
 %token <number> NaN
@@ -24,7 +28,8 @@
 %type <comm> command
 %start program			// main non-terminal
 
-%left '<' '=' '&'
+%left '='
+%left EqNb LoEqNb AND
 %left '+' '-'
 %left '*' '/' '%'
 %nonassoc UMOINS NOT
@@ -61,18 +66,18 @@ expression:										// an expression is
 		{ $$=new_unary_expr('M', $2); }
 | NUMBER											// or a NUMBER
 		{ $$=new_number_expr('N', $1); }
-| expression '<' '=' expression
-		{ $$=new_binary_expr('L', $1, $4); }
-| expression '=' '=' expression 
-		{ $$=new_binary_expr('E', $1, $4); }
+| expression LoEqNb expression
+		{ $$=new_binary_expr('L', $1, $3); }
+| expression EqNb expression 
+		{ $$=new_binary_expr('E', $1, $3); }
 | expression '<' expression
 		{ $$=new_binary_expr('<', $1, $3); }
 | IDENT '=' expression
 		{ $$=new_equals_expr($1, $3); }
 | '!' expression %prec NOT
 		{ $$=new_unary_expr('!', $2); }
-| expression '&' '&' expression
-		{ $$=new_binary_expr('&', $1, $4); }
+| expression AND expression
+		{ $$=new_binary_expr('&', $1, $3); }
 | BOOLEAN											// or a BOOLEAN
 		{ $$=new_number_expr('B', $1); }
 | NaN
