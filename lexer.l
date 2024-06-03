@@ -26,9 +26,9 @@ import                                          { return IMPORT; }
 																									return IDENT; }
 [ \t\r\n]										                    { ; }	// separator
 "//".*                                          { ; }
-"/*"(.|[\n])*"*/"                               { ; }
-<<EOF>>											                    { return 0; }
-.														                    { return yytext[0]; }
+"/*"(.|[ \n\t\r])*"*/"                          { ; }
+<<EOF>>                                         { return 0; }
+.                                               { return yytext[0]; }
 
 %%
 int yywrap(void){ return 1; } 	// function called at the end of the file
