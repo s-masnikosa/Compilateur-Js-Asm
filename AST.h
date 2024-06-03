@@ -37,6 +37,8 @@ AST_expr new_number_expr(char rule, double number);
 /* create a new variable from a string */
 AST_expr new_variable_expr(char rule, char* vname);
 
+AST_expr new_equals_expr(char* vname, AST_expr son);
+
 /* create an AST root from an expression */
 AST_comm new_command(AST_expr expression);
 
@@ -61,3 +63,5 @@ void print_prog_code(LIST_prog p, FILE* output);
 void print_prog_code_rec(LIST_prog p, FILE* output);
 
 int sizeof_expr(AST_expr expr);
+
+char opt_rec(AST_expr expr);
