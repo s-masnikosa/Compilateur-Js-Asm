@@ -4,6 +4,7 @@ struct _expr_tree {
   char rule;                       /* "name" of the rule/operation operation */
   double number;                   /* int  for value */
   char* var;                       /* variable name */
+	int depth;
 	struct _expr_tree* left;         /* NULL if unary node or leaf*/
   struct _expr_tree* right;        /* used for unary node but NULL if leaf */
 };
@@ -59,3 +60,4 @@ void print_code_rec(AST_expr t, FILE* output);
 void print_prog_code(LIST_prog p, FILE* output);
 void print_prog_code_rec(LIST_prog p, FILE* output);
 
+int sizeof_expr(AST_expr expr);

@@ -23,7 +23,7 @@
 %type <comm> command
 %start program			// main non-terminal
 
-%left '<' '='
+%left '<' '=' '&'
 %left '+' '-'
 %left '*' '/' '%'
 %nonassoc UMOINS NOT
@@ -68,6 +68,8 @@ expression:										// an expression is
 		{ $$=new_binary_expr('<', $1, $3); }
 | '!' expression %prec NOT
 		{ $$=new_unary_expr('!', $2); }
+| expression '&' '&' expression
+		{ $$=new_binary_expr('&', $1, $4); }
 | BOOLEAN											// or a BOOLEAN
 		{ $$=new_number_expr('B', $1); }
 | NaN
