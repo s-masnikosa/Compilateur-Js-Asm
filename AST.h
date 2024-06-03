@@ -36,6 +36,8 @@ AST_expr new_number_expr(char rule, double number);
 /* create a new variable from a string */
 AST_expr new_variable_expr(char rule, char* vname);
 
+AST_expr new_equals_expr(char* vname, AST_expr son);
+
 /* create an AST root from an expression */
 AST_comm new_command(AST_expr expression);
 

@@ -52,7 +52,7 @@ command:					// a command is
 
 expression:										// an expression is
  IDENT '=' expression
-		{ $$=new_binary_expr('=', new_variable_expr('V',$1), $3); }
+		{ $$=new_equals_expr($1, $3); }
 |expression '+' expression		// either a sum of an expression and an expression
 		{ $$=new_binary_expr('+', $1, $3); }
 |	expression '-' expression		// or an expression minus an expression

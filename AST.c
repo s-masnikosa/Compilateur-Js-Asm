@@ -19,6 +19,14 @@ AST_expr new_unary_expr(char rule, AST_expr son)
   return new_binary_expr(rule, NULL,son);
 }
 
+/* create AST equals */
+AST_expr new_equals_expr(char* vname, AST_expr son){
+	AST_expr t = new_unary_expr('=', son);
+	if(t != NULL) t->var=vname;
+	return t;
+}
+
+
 /* create an AST leaf from a value */
 AST_expr new_number_expr(char rule, double number)
 {
@@ -106,6 +114,8 @@ void print_expr(AST_expr t){
 			case 'I':
 				printf(":I: %s.jsm ", t->var);
 				break;
+			case '=':
+				printf("[ :%s: ] ", t->var); // pas de break pour continuer sur le reste
 			default:
 				if(t->left != NULL)
 					print_expr(t->left);
