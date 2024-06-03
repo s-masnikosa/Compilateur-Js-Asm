@@ -25,6 +25,9 @@ import                                          { return IMPORT; }
 																									strcpy(yylval.vname,yytext);
 																									return IDENT; }
 [ \t\r\n]										                    { ; }	// separator
+"=="                                            { return EqNb; }
+"&&"                                            { return AND; }
+"<="                                            { return LoEqNb; }
 "//".*                                          { ; }
 "/*"(.|[ \n\t\r])*"*/"                          { ; }
 <<EOF>>                                         { return 0; }
