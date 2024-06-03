@@ -16,6 +16,9 @@ NaN                                             { return NaN; }
 True|False                                      { return BOOLEAN; }
 import                                          { return IMPORT; }
 [a-z]([[:alnum:]]|[_])*                         { return IDENT; }
+"=="                                            { return EqNb; }
+"&&"                                            { return AND; }
+"<="                                            { return LoEqNb; }
 [ \t\r\n]                                       { ; }	// separator
 "//".*                                          { ; }
 "/*"(.|[ \n\t\r])*"*/"                                      { ; }
