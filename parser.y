@@ -10,6 +10,10 @@
  int yyerror(const char*);	// on generated functions 
 %}
 
+%token EQUALS
+%token LOEQ
+%token AND
+
 %token NUMBER       // kinds of non-trivial tokens expected from the lexer
 %token BOOLEAN
 %token NaN
@@ -17,7 +21,9 @@
 %token IMPORT IDENT
 %start program      // main non-terminal
 
-%left '<' '=' '&'
+%left '='
+%left EQUALS "==" LOEQ "<=" AND "&&"
+//%left '<' '=' '&'
 %left '+' '-'
 %left '*' '/' '%'
 %nonassoc UMOINS NOT
@@ -35,7 +41,8 @@ command:					// a command is
 ;
 
 expression:										// an expression is
-	expression '+' expression		// either a sum of an expression and an expression
+ IDENT '=' expression
+|expression '+' expression		// either a sum of an expression and an expression
 |	expression '-' expression		// or an expression minus an expression
 | expression '*' expression		// or an expression times an expression
 | expression '/' expression		// or an expression divided by an expression
@@ -43,14 +50,15 @@ expression:										// an expression is
 | '(' expression ')'					// or an expression surounded by parentheses
 | '-' expression %prec UMOINS	// or the negation of an expression
 | NUMBER											// or a NUMBER
-| expression '<' '=' expression
-| expression '=' '=' expression 
+| expression LOEQ expression
+| expression EQUALS expression 
 | expression '<' expression
 | '!' expression %prec NOT
-| expression '&' '&' expression
+| expression AND expression
 | BOOLEAN											// or a BOOLEAN
 | NaN
 | SNUMBER
+| IDENT
 ;
 
 %%	// denotes the end of the grammar
