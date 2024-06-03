@@ -161,6 +161,12 @@ void print_code_rec(AST_expr t, FILE* output){
 			case 'B':
 				fprintf(output, "CsteBo %s\n", (t->number == 0)?"False":"True");
 				break;
+			case 'V':
+				fprintf(output, "GetVar %s\n", t->var);
+				break;
+			case '=':
+				fprintf(output, "SetVar %s\nGetVar %s\n", t->left->var, t->left->var);
+				break;
 			case '+':
 				fprintf(output, "AddiNb\n");
 				break;
