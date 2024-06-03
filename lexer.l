@@ -25,6 +25,8 @@ import                                          { return IMPORT; }
 																									strcpy(yylval.vname,yytext);
 																									return IDENT; }
 [ \t\r\n]										                    { ; }	// separator
+"//".*                                          { ; }
+"/*"(.|[\n])*"*/"                               { ; }
 <<EOF>>											                    { return 0; }
 .														                    { return yytext[0]; }
 
