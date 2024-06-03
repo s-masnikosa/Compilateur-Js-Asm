@@ -175,7 +175,7 @@ void print_code_rec(AST_expr t, FILE* output){
 				fprintf(output, "GetVar %s\n", t->var);
 				break;
 			case '=':
-				fprintf(output, "SetVar %s\n", t->left->var);
+				fprintf(output, "SetVar %s\nGetVar %s\n", t->var, t->var);
 				break;
 			case '+':
 				fprintf(output, "AddiNb\n");
