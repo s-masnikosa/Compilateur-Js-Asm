@@ -17,8 +17,8 @@ True|False                                      { return BOOLEAN; }
 import                                          { return IMPORT; }
 [a-z]([[:alnum:]]|[_])*                         { return IDENT; }
 [ \t\r\n]                                       { ; }	// separator
-"//".*                                          { ; }
-"/*"(.|[\n])*"*/"                               { ; }
+"//".*                                          { return COMMENT; }
+"/*"(.|[\n])*"*/"                               { return COMMENT; }
 <<EOF>>                                         { return 0; }
 .                                               { return yytext[0]; }
 
